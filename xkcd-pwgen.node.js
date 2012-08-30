@@ -5,7 +5,7 @@
 // All rights reserved.
 //
 // Some parts based on http://www.mytsoftware.com/dailyproject/PassGen/entropy.js, copyright 2003 David Finch.
-// 
+//
 // Released under the Modified BSD License:
 //
 // Redistribution and use in source and binary forms, with or without
@@ -18,7 +18,7 @@
 //     * Neither the name of the <organization> nor the
 //       names of its contributors may be used to endorse or promote products
 //       derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -299,7 +299,6 @@ function xkcd_pw_gen_create_hash()
 	var hexString = shasum.digest('hex')
 	for (var i = 0; i < 32; i += 8)
 	{
-
 		result.push(parseInt(hexString.substr(i, 8), 16));
 	}
 	return result;
@@ -319,13 +318,32 @@ function xkcd_pw_gen()
 	return choices.join("-");
 }
 
-var http = require('http');
-http.createServer(function (req,res) {
-	res.writeHead(200, {'Content-Type': 'text/plain',
-						'X-About': 'http://drax.tlyk.eu/index.php/2012/05/xkcd-password-server/',
-						'Pragma': 'no-cache',
-						'Cache-Control': 'no-cache',
-						'Expires': '1970-01-01 00:00:00'});
-	res.end(xkcd_pw_gen());
-}).listen(1337, '0.0.0.0');
-console.log('xkcd password server at http://0.0.0.0:1337');
+// Run xkcd password server:
+function run_server()
+{
+	var http = require('http');
+	var app = http.createServer(function (req,res) {
+		res.writeHead(200, {'Content-Type': 'text/plain',
+							'X-About': 'http://drax.tlyk.eu/index.php/2012/05/xkcd-password-server/',
+							'Pragma': 'no-cache',
+							'Cache-Control': 'no-cache',
+							'Expires': '1970-01-01 00:00:00'});
+		res.end(xkcd_pw_gen());
+	}).listen(1337, '0.0.0.0');
+	console.log('xkcd password server at http://0.0.0.0:1337');
+
+	return app;
+}
+
+if (!module.parent)
+{
+	// If not included as module, run server
+	run_server();
+}
+else
+{
+	// Included as module, export functions
+	exports.generatePassword = xkcd_pw_gen;
+	exports.runServer = run_server;
+}
+

@@ -1,0 +1,10 @@
+{
+    "name"          : "xkcd-pwgen",
+    "description"   : "XKCD Password Generator",
+    "homepage"      : "http://documentcloud.github.com/underscore/",
+    "keywords"      : ["util", "password", "generator", "server"],
+    "repository"    : {"type": "git", "url": "git://github.com/jiphex/xkcd-pwgen.git"},
+    "main"          : "xkcd-pwgen.node.js",
+    "bin"           : "xkcd-pwgen.node.js",
+    "version"       : "0.0.1"
+}
