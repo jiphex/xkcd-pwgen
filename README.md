@@ -6,7 +6,7 @@ XKCD Password Generator (fork of http://preshing.com/20110811/xkcd-password-gene
 Installation
 ------------
 
-npm install xkcd-pwgen
+    npm install xkcd-pwgen
 
 Usage
 -----
